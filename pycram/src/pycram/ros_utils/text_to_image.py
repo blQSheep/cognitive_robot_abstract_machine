@@ -1,10 +1,10 @@
 from typing import Optional
 import logging
 import rclpy
+import time
 from rclpy.node import Node
 from rclpy.publisher import Publisher
 from std_msgs.msg import String
-from ..ros.ros2.publisher import create_publisher
 from rclpy.qos import QoSProfile, ReliabilityPolicy
 
 logger = logging.getLogger(__name__)
@@ -36,6 +36,9 @@ class TextImagePublisher:
         self.first_screen()
         self.is_init = True
 
+        # wait a few seconds to ensure the screen is initialized
+        time.sleep(3)
+
         logger.info("TextImagePublisher initialized")
 
 
@@ -47,7 +50,9 @@ class TextImagePublisher:
 
         msg = String()
         msg.data = text
-        self.publisher.publish(msg)
+        for _ in range(3):
+            self.publisher.publish(msg)
+        time.sleep(1)
 
         logger.info("Published new text to image display")
 
@@ -64,8 +69,10 @@ class TextImagePublisher:
         msg = String()
         msg.data = ""
 
-        for _ in range(8):
+        # first few images are not shown
+        for _ in range(6):
             self.publisher.publish(msg)
+        time.sleep(1)
 
 
     def shutdown(self):
@@ -76,3 +83,19 @@ class TextImagePublisher:
             self.node.destroy_node()
 
         logger.info("TextImagePublisher shut down")
+
+
+def example_use():
+    # create new Publisher like this
+    text_pub = TextImagePublisher()
+
+    # display Text like this
+    # if you spam text, it will only stay on the display for a second
+    # maybe add a time.sleep() before publishing the next image
+    text_pub.publish_text("Hello my name is Toya")
+    time.sleep(1)
+    text_pub.publish_text("What is your name?")
+    time.sleep(1)
+    text_pub.publish_text("This is a test")
+
+example_use()
