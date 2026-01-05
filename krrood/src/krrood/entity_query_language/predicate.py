@@ -14,6 +14,7 @@ from typing_extensions import (
     ClassVar,
     Dict,
     List,
+    Iterable,
 )
 
 from .enums import PredicateType
@@ -94,6 +95,9 @@ class Predicate(Symbol, ABC):
         """
         Evaluate the predicate for the supplied values.
         """
+
+    def __bool__(self):
+        return bool(self.__call__())
 
 
 @dataclass(eq=False)
