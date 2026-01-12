@@ -26,7 +26,7 @@ world, robot_view, context, viz = (
 
 plan = SequentialPlan(
     context,
-    ParkArmsActionDescription(Arms.BOTH),
+    # ParkArmsActionDescription(Arms.BOTH),
     # MoveTorsoActionDescription(TorsoState.HIGH),
     # PouringActionDescription(world.get_body_by_name("milk.stl")),
     SimplePouringActionDescription(world.get_body_by_name("milk.stl"), Arms.LEFT),

@@ -82,15 +82,15 @@ class SimplePouringAction(ActionDescription):
         SequentialPlan(
             self.context,
             MoveTCPMotion(
-                pose,
+                pose_rot,
                 self.arm,
-                allow_gripper_collision=False,
+                allow_gripper_collision=True,
                 movement_type=MovementType.CARTESIAN,
             ),
             MoveTCPMotion(
                 pose_rot,
                 self.arm,
-                allow_gripper_collision=False,
+                allow_gripper_collision=True,
                 movement_type=MovementType.CARTESIAN,
             ),
         ).perform()
