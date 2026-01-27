@@ -32,7 +32,6 @@ def test_milk_goes_to_fridge():
     milk = Milk(
         name=PrefixedName("milk"),
         body=Body(name=PrefixedName("milk_body")),
-        destination_class_names=["Fridge"],   # key point
     )
 
     with world.modify_world():

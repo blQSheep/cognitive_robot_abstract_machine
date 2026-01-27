@@ -53,9 +53,9 @@ class HasDestination:
     "Where should this object be brought?"
     """
 
-    destination_class_names: list[str] = field(default_factory=list, kw_only=True)
+    destination_class_names: list[type] = field(default_factory=list, init=False)
     """
-    Tuple of semantic annotation class names representing suitable destinations.
+    List of semantic annotation class names representing suitable destinations.
     If empty, no destination is known.
     """
 
@@ -372,7 +372,7 @@ class Milk(Container, Food, IsPerceivable, HasDestination):
     """
     A container of milk.
     """
-    destination_class_names: list[str] = field(default_factory=lambda: ["Fridge"], kw_only=True)
+    destination_class_names: list[type[SemanticAnnotation]] = field(default_factory=lambda: [Fridge], init=False)
 
 
 @dataclass(eq=False)

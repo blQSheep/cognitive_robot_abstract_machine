@@ -369,7 +369,7 @@ class HasDestinationDAO(
         Integer, primary_key=True, use_existing_column=True
     )
 
-    destination_class_names: Mapped[typing.List[builtins.str]] = mapped_column(
+    destination_class_names: Mapped[typing.List[builtins.type]] = mapped_column(
         JSON, nullable=False, use_existing_column=True
     )
     polymorphic_type: Mapped[str] = mapped_column(
@@ -2883,7 +2883,7 @@ class MilkDAO(
         String(255), use_existing_column=True
     )
 
-    destination_class_names: Mapped[typing.List[builtins.str]] = mapped_column(
+    destination_class_names: Mapped[typing.List[builtins.type]] = mapped_column(
         JSON, nullable=False, use_existing_column=True
     )
 
