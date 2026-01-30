@@ -296,12 +296,20 @@ class HasRootBody(HasRootKinematicStructureEntity, ABC):
         :param active_axis: The active axis for the connection.
         :param connection_multiplier: The multiplier for the connection.
         :param connection_offset: The offset for the connection.
+        :param scale: The scale used to generate the geometry of the body.
         :return: The created semantic annotation instance.
         """
         body = Body(name=name)
         if scale is not None:
             collision_shapes = BoundingBoxCollection.from_event(
-                body, scale.to_simple_event()
+                body, scale.to_simple_event().as_composite_set()
+            ).as_shapes()
+            body.collision = collision_shapes
+            body.visual = collision_shapes
+
+        if scale is not None:
+            collision_shapes = BoundingBoxCollection.from_event(
+                body, scale.to_simple_event().as_composite_set()
             ).as_shapes()
             body.collision = collision_shapes
             body.visual = collision_shapes
