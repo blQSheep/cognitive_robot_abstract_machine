@@ -40,6 +40,7 @@ def query_object_destination(world: World, obj: HasDestination) -> List[Semantic
     if not dest_types:
         return []
 
+    # Result
     results: List[SemanticAnnotation] = []
     for dest_type in dest_types:
         results.extend(world.get_semantic_annotations_by_type(dest_type))
