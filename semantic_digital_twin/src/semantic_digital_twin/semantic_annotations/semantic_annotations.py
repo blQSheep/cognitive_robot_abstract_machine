@@ -15,6 +15,7 @@ from .mixins import (
     HasRootRegion,
     HasDrawers,
     HasDoors,
+    HasShelves,
     HasHandle,
     HasCaseAsRootBody,
     HasHinge,
@@ -353,6 +354,13 @@ class Drawer(Furniture, HasCaseAsRootBody, HasHandle, HasSlider, HasStorageSpace
 
 
 @dataclass(eq=False)
+class Shelf(HasSupportingSurface):
+    """
+    A shelf.
+    """
+
+
+@dataclass(eq=False)
 class Table(Furniture, HasSupportingSurface):
     """
     A semantic annotation that represents a table.
@@ -375,7 +383,7 @@ class Dresser(Cabinet, HasDrawers, HasDoors): ...
 
 
 @dataclass(eq=False)
-class Cupboard(Cabinet, HasDoors): ...
+class Cupboard(Cabinet, HasDoors, HasShelves): ...
 
 
 @dataclass(eq=False)
