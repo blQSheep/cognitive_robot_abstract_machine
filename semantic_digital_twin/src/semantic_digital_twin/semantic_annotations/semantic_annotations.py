@@ -15,7 +15,7 @@ from .mixins import (
     HasRootRegion,
     HasDrawers,
     HasDoors,
-    HasShelves,
+    HasShelfLayers,
     HasHandle,
     HasCaseAsRootBody,
     HasHinge,
@@ -24,7 +24,6 @@ from .mixins import (
     IsPerceivable,
     HasRootBody,
     HasStorageSpace,
-    HasDestination,
 )
 from ..datastructures.prefixed_name import PrefixedName
 from ..datastructures.variables import SpatialVariables
@@ -354,9 +353,9 @@ class Drawer(Furniture, HasCaseAsRootBody, HasHandle, HasSlider, HasStorageSpace
 
 
 @dataclass(eq=False)
-class Shelf(HasSupportingSurface):
+class ShelfLayer(HasSupportingSurface):
     """
-    A shelf.
+    A horizontal surface used for storing objects, typically found inside cabinets or on walls.
     """
 
 
@@ -383,7 +382,7 @@ class Dresser(Cabinet, HasDrawers, HasDoors): ...
 
 
 @dataclass(eq=False)
-class Cupboard(Cabinet, HasDoors, HasShelves): ...
+class Cupboard(Cabinet, HasDoors, HasShelfLayers): ...
 
 
 @dataclass(eq=False)
@@ -392,7 +391,7 @@ class Wardrobe(Cabinet, HasDrawers, HasDoors): ...
 @dataclass(eq=False)
 class Sink(HasRootBody):
     """
-    A sink.
+    A bowl-shaped plumbing fixture used for washing hands, dishware, and other small objects.
     """
 
 @dataclass(eq=False)
@@ -537,11 +536,10 @@ class Wall(HasApertures):
 
 
 @dataclass(eq=False)
-class Bottle(HasRootBody, HasDestination):
+class Bottle(HasRootBody):
     """
     Abstract class for bottles.
     """
-Bottle.destination_class_names: list[type[SemanticAnnotation]] = [Sink, Cupboard]
 
 
 @dataclass(eq=False)
@@ -574,12 +572,10 @@ class DrinkingContainer(HasRootBody): ...
 
 
 @dataclass(eq=False)
-class Cup(DrinkingContainer, IsPerceivable, HasDestination):
+class Cup(DrinkingContainer, IsPerceivable):
     """
     A cup.
     """
-# Klassenvariable – definiert, welche Ziele für Cup gelten
-Cup.destination_class_names: list[type[SemanticAnnotation]] = [Cupboard, Table, Sink]
 
 
 @dataclass(eq=False)
@@ -715,12 +711,10 @@ class Cereal(Food, IsPerceivable):
 
 
 @dataclass(eq=False)
-class Milk(Food, IsPerceivable, HasDestination):
+class Milk(Food, IsPerceivable):
     """
     A container of milk.
     """
-# Klassenvariable – definiert, welche Ziele für Milk gelten
-Milk.destination_class_names: list[type[SemanticAnnotation]] = [Fridge]
 
 
 
@@ -910,11 +904,10 @@ class Potato(Produce): ...
 
 
 @dataclass(eq=False)
-class GarbageBin(HasRootBody, HasDestination):
+class GarbageBin(HasRootBody):
     """
     A garbage bin.
     """
-GarbageBin.destination_class_names: list[type[SemanticAnnotation]] = [GarbageBin]
 
 @dataclass(eq=False)
 class Drone(HasRootBody): ...

@@ -50,7 +50,7 @@ if TYPE_CHECKING:
         Hinge,
         Slider,
         Aperture,
-        Shelf,
+        ShelfLayer,
     )
 
 
@@ -535,29 +535,29 @@ class HasDoors(HasRootKinematicStructureEntity, ABC):
 
 
 @dataclass(eq=False)
-class HasShelves(HasRootKinematicStructureEntity, ABC):
+class HasShelfLayers(HasRootBody, ABC):
     """
-    A mixin class for semantic annotations that have shelves.
+    A mixin class for semantic annotations that have shelf layers.
     """
 
-    shelves: List[Shelf] = field(default_factory=list, hash=False, kw_only=True)
+    shelf_layers: List[ShelfLayer] = field(default_factory=list, hash=False, kw_only=True)
     """
-    The shelves of the semantic annotation.
+    The shelf layers of the semantic annotation.
     """
 
     @synchronized_attribute_modification
-    def add_shelf(
+    def add_shelf_layer(
         self,
-        shelf: Shelf,
+        shelf_layer: ShelfLayer,
     ):
         """
-        Add a shelf to the semantic annotation.
+        Add a shelf layer to the semantic annotation.
 
-        :param shelf: The shelf to add.
+        :param shelf_layer: The shelf layer to add.
         """
 
-        self._attach_child_entity_in_kinematic_structure(shelf.root)
-        self.shelves.append(shelf)
+        self._attach_child_entity_in_kinematic_structure(shelf_layer.root)
+        self.shelf_layers.append(shelf_layer)
 
 
 @dataclass(eq=False)
@@ -808,21 +808,3 @@ class HasCaseAsRootBody(HasSupportingSurface, ABC):
         container_event = outer_box.as_composite_set() - inner_box.as_composite_set()
 
         return container_event
-
-@dataclass(eq=False)
-class HasDestination:
-    """
-    A mixin class for semantic annotations that can have one or multiple preferred destinations.
-
-    Destinations are expressed as semantic annotation class types (Type[SemanticAnnotation]), e.g.:
-    [Fridge, GarbageBin].
-
-    This is used by Knowledge queries to answer:
-    "Where should this object be brought?"
-    """
-
-    destination_class_names: list[type[SemanticAnnotation]] = field(default_factory=list, init=False)
-    """
-    List of semantic annotation types representing suitable destinations.
-    If empty, no destination is known.
-    """
