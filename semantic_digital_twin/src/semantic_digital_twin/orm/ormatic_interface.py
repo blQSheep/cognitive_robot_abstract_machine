@@ -464,28 +464,6 @@ class FieldOfViewDAO(
     vertical_angle: Mapped[builtins.float] = mapped_column(use_existing_column=True)
     horizontal_angle: Mapped[builtins.float] = mapped_column(use_existing_column=True)
 
-
-class HasDestinationDAO(
-    Base,
-    DataAccessObject[semantic_digital_twin.semantic_annotations.mixins.HasDestination],
-):
-
-    __tablename__ = "HasDestinationDAO"
-
-    database_id: Mapped[builtins.int] = mapped_column(
-        Integer, primary_key=True, use_existing_column=True
-    )
-
-    polymorphic_type: Mapped[str] = mapped_column(
-        String(255), nullable=False, use_existing_column=True
-    )
-
-    __mapper_args__ = {
-        "polymorphic_on": "polymorphic_type",
-        "polymorphic_identity": "HasDestinationDAO",
-    }
-
-
 class HomogeneousTransformationMatrixMappingDAO(
     Base,
     DataAccessObject[
